@@ -18,6 +18,8 @@ class ViewController: FormViewController {
     
     var analysisResult = [(color: Color, rate: Float)]()
     
+    var duration: Double = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -31,6 +33,11 @@ class ViewController: FormViewController {
                 $0.value = String(analysisResult.count)
                 $0.tag = "numberOfColors"
             }
+            <<< LabelRow(){
+                $0.title = "Duration"
+                $0.value = "\(Int(duration * 1000))ms"
+                $0.tag = "duration"
+            }
             +++ Section("Top 10 colors") {
                 $0.tag = "top10Colors"
             }
@@ -39,13 +46,19 @@ class ViewController: FormViewController {
     }
     
     func analyze() {
-        analysisResult = originalImage.analyze()
+        let start = Date()
+        analysisResult = originalImage.analyze(compression: 50)
+        let end = Date()
+        duration = end.timeIntervalSince(start)
         reload()
     }
     
     func reload() {
         if let row = self.form.rowBy(tag: "numberOfColors") as? LabelRow {
             row.value = String(analysisResult.count)
+        }
+        if let row = self.form.rowBy(tag: "duration") as? LabelRow {
+            row.value = "\(Int(duration * 1000))ms"
         }
         if let top10ColorsSection = self.form.sectionBy(tag: "top10Colors") {
             top10ColorsSection.removeAll()
