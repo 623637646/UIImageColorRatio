@@ -1,0 +1,10 @@
+platform :ios, '14.0'
+
+target 'ImageAnalyzerExample' do
+ use_frameworks!
+
+  pod 'ImageAnalyzer', :path=>'../'
+  pod 'Eureka'
+  pod 'ViewRow'
+
+end

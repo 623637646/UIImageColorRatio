@@ -1,0 +1,28 @@
+PODS:
+  - Eureka (5.3.3)
+  - ImageAnalyzer (1.0.0)
+  - ViewRow (0.8):
+    - Eureka (>= 5.0.0)
+
+DEPENDENCIES:
+  - Eureka
+  - ImageAnalyzer (from `../`)
+  - ViewRow
+
+SPEC REPOS:
+  trunk:
+    - Eureka
+    - ViewRow
+
+EXTERNAL SOURCES:
+  ImageAnalyzer:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  Eureka: e6d720290c56bb23333ad1a0e020b2a98a0e9a43
+  ImageAnalyzer: fe7dc0acbff4e1c28cae18debb1b2c28f8c081ab
+  ViewRow: 8da541e9c019f3be63f4e28f311a62cac2045ecf
+
+PODFILE CHECKSUM: e09b67fc7f18b0d533fe26f48402e8fdad4639b1
+
+COCOAPODS: 1.9.3
