@@ -96,12 +96,15 @@ class ViewController: FormViewController {
                     }
                     for index in 0 ... min(10 - 1, self.analysisResult.count - 1) {
                         let data = self.analysisResult[index]
-                        $0
-                            <<< LabelRow(){
-                                $0.value = String.init(format: "%0.2f%%", data.rate * 100)
-                            }.cellUpdate({ (cell, row) in
-                                cell.backgroundColor = UIColor.init(red: CGFloat(data.color.r) / 255, green: CGFloat(data.color.g) / 255, blue: CGFloat(data.color.b) / 255, alpha: 1)
-                            })
+                        let color = UIColor.init(red: CGFloat(data.color.r) / 255, green: CGFloat(data.color.g) / 255, blue: CGFloat(data.color.b) / 255, alpha: 1)
+                        $0 <<< LabelRow(){
+                            $0.title = color.hexString
+                            $0.value = String.init(format: "%0.2f%%", data.rate * 100)
+                        }.cellUpdate({ (cell, row) in
+                            cell.backgroundColor = color
+                            cell.textLabel?.textColor = color.inverseColor()
+                            cell.detailTextLabel?.textColor = color.inverseColor()
+                        })
                     }
                 }
         }
@@ -132,5 +135,61 @@ class ViewController: FormViewController {
         self.analyze()
     }
     
+}
+
+extension UIColor {
+    
+    func inverseColor() -> UIColor {
+        return (self.isLight() ?? false) ? .black : .white
+    }
+    
+    // https://stackoverflow.com/a/29044899/9315497
+    func isLight(threshold: Float = 0.5) -> Bool? {
+        let originalCGColor = self.cgColor
+        
+        // Now we need to convert it to the RGB colorspace. UIColor.white / UIColor.black are greyscale and not RGB.
+        // If you don't do this then you will crash when accessing components index 2 below when evaluating greyscale colors.
+        let RGBCGColor = originalCGColor.converted(to: CGColorSpaceCreateDeviceRGB(), intent: .defaultIntent, options: nil)
+        guard let components = RGBCGColor?.components else {
+            return nil
+        }
+        guard components.count >= 3 else {
+            return nil
+        }
+        
+        let brightness = Float(((components[0] * 299) + (components[1] * 587) + (components[2] * 114)) / 1000)
+        return (brightness > threshold)
+    }
+    
+    var hexString: String? {
+        var red: CGFloat = 0
+        var green: CGFloat = 0
+        var blue: CGFloat = 0
+        var alpha: CGFloat = 0
+        
+        let multiplier = CGFloat(255.999999)
+        
+        guard self.getRed(&red, green: &green, blue: &blue, alpha: &alpha) else {
+            return nil
+        }
+        
+        if alpha == 1.0 {
+            return String(
+                format: "#%02lX%02lX%02lX",
+                Int(red * multiplier),
+                Int(green * multiplier),
+                Int(blue * multiplier)
+            )
+        }
+        else {
+            return String(
+                format: "#%02lX%02lX%02lX%02lX",
+                Int(red * multiplier),
+                Int(green * multiplier),
+                Int(blue * multiplier),
+                Int(alpha * multiplier)
+            )
+        }
+    }
 }
 
