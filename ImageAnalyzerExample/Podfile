@@ -6,5 +6,6 @@ target 'ImageAnalyzerExample' do
   pod 'ImageAnalyzer', :path=>'../'
   pod 'Eureka'
   pod 'ViewRow'
+  pod 'ProgressHUD'
 
 end
