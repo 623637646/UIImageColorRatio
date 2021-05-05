@@ -39,7 +39,7 @@ class ViewController: FormViewController {
             let time1 = Date()
             self.filteredImage = self.originalImage.image(compression: self.compression)!
             let time2 = Date()
-            self.analysisResult = self.filteredImage.analyze(compression: 1)
+            self.analysisResult = self.originalImage.analyze(compression: self.compression)
             let time3 = Date()
             self.durationForFilteringImage = time2.timeIntervalSince(time1)
             self.durationForAnalysis = time3.timeIntervalSince(time2)
