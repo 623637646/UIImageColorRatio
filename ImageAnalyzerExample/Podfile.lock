@@ -4,18 +4,23 @@ PODS:
   - ProgressHUD (13.6)
   - ViewRow (0.8):
     - Eureka (>= 5.0.0)
+  - ZLPhotoBrowser (4.1.5):
+    - ZLPhotoBrowser/Core (= 4.1.5)
+  - ZLPhotoBrowser/Core (4.1.5)
 
 DEPENDENCIES:
   - Eureka
   - ImageAnalyzer (from `../`)
   - ProgressHUD
   - ViewRow
+  - ZLPhotoBrowser
 
 SPEC REPOS:
   trunk:
     - Eureka
     - ProgressHUD
     - ViewRow
+    - ZLPhotoBrowser
 
 EXTERNAL SOURCES:
   ImageAnalyzer:
@@ -26,7 +31,8 @@ SPEC CHECKSUMS:
   ImageAnalyzer: fe7dc0acbff4e1c28cae18debb1b2c28f8c081ab
   ProgressHUD: 4bdaa0d2ddf676b23324b199f9facffb5c3a1620
   ViewRow: 8da541e9c019f3be63f4e28f311a62cac2045ecf
+  ZLPhotoBrowser: 809878607ea92e9411c580797ce1be23896b8d7f
 
-PODFILE CHECKSUM: 9c21d374c43131dce359e5fdbb19e3ec812792ec
+PODFILE CHECKSUM: a360e989514ec3a2763a0bc152956713e554fa78
 
 COCOAPODS: 1.9.3

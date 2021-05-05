@@ -10,12 +10,13 @@ import Eureka
 import ViewRow
 import ImageAnalyzer
 import ProgressHUD
+import ZLPhotoBrowser
 
 let maxCompression: UInt = 100
 
 class ViewController: FormViewController {
     
-    let originalImage = UIImage(named: "bird")!
+    var originalImage = UIImage(named: "bird")!
     
     lazy var filteredImage = originalImage
     
@@ -54,7 +55,22 @@ class ViewController: FormViewController {
         UIView.performWithoutAnimation {
             form.removeAll()
             form +++ Section("Original image")
-                <<< getImageRow(image: originalImage)
+                <<< getImageRow(image: originalImage).onCellSelection({ (_, _) in
+                    let ps = ZLPhotoPreviewSheet()
+                    ps.selectImageBlock = { [weak self] (images, assets, isOriginal) in
+                        guard let self = self,
+                              images.count == 1,
+                              let image = images.first else {
+                            return
+                        }
+                        DispatchQueue.main.async {
+                            self.originalImage = image
+                            self.reload()
+                            self.analyze()
+                        }
+                    }
+                    ps.showPhotoLibrary(sender: self)
+                })
                 +++ Section("Filtered image")
                 <<< getImageRow(image: filteredImage)
                 +++ Section("Analysis")

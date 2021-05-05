@@ -7,5 +7,6 @@ target 'ImageAnalyzerExample' do
   pod 'Eureka'
   pod 'ViewRow'
   pod 'ProgressHUD'
+  pod 'ZLPhotoBrowser'
 
 end

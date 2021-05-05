@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ZLPhotoBrowser
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -13,7 +14,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        
+        ZLPhotoConfiguration.default().allowTakePhoto = false
+        ZLPhotoConfiguration.default().maxSelectCount = 1
+        ZLPhotoConfiguration.default().allowEditImage = false
+        ZLPhotoConfiguration.default().allowSelectOriginal = false
+        ZLPhotoConfiguration.default().allowTakePhotoInLibrary = false
+        ZLPhotoConfiguration.default().allowSelectVideo = false
+        
         return true
     }
 
