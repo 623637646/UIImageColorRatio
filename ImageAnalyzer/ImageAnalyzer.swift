@@ -18,19 +18,19 @@ public struct Color: Hashable {
         self.b = b
     }
     
-    public func isSimilar(another: Color, deviation: UInt8) -> Bool {
+    public func isSimilar(another: Color, offset: UInt8) -> Bool {
         return
-            max(self.r, another.r) - min(self.r, another.r) <= deviation &&
-            max(self.g, another.g) - min(self.g, another.g) <= deviation &&
-            max(self.b, another.b) - min(self.b, another.b) <= deviation
+            max(self.r, another.r) - min(self.r, another.r) <= offset &&
+            max(self.g, another.g) - min(self.g, another.g) <= offset &&
+            max(self.b, another.b) - min(self.b, another.b) <= offset
     }
 }
 
 extension UIImage {
     
-    // compression: The degree of compression. More compression means less kind of colors.
+    // offset: The degree of compression. More offset means less kind of colors.
     // Refer to: https://stackoverflow.com/a/40237504/9315497
-    public func analyze(compression: UInt8 = 1) -> [(color: Color, rate: Float)] {
+    public func analyze(offset: UInt8 = 0) -> [(color: Color, rate: Float)] {
         
         // TODO: test the releasing.
         guard let pixelData = self.cgImage?.dataProvider?.data,
@@ -53,7 +53,7 @@ extension UIImage {
         for item in array {
             var similarItemIndex: Int? = nil
             for (index, one) in result.enumerated() {
-                if one.color.isSimilar(another: item.color, deviation: compression - 1) {
+                if one.color.isSimilar(another: item.color, offset: offset) {
                     similarItemIndex = index
                     break
                 }

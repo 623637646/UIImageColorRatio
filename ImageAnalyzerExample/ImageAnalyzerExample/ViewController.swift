@@ -12,21 +12,21 @@ import ImageAnalyzer
 import MBProgressHUD
 import ZLPhotoBrowser
 
-let maxCompression: UInt = 50
+let maxOffset: UInt = 50
 
 class ViewController: FormViewController {
     
     var originalImage = UIImage(named: "bird")!
     
-    lazy var filteredImage = originalImage
+    lazy var renderedImage = originalImage
     
     var analysisResult = [(color: Color, rate: Float)]()
     
-    var durationForFilteringImage: Double = 0
+    var durationForRenderingImage: Double = 0
     
     var durationForAnalysis: Double = 0
     
-    var compression: UInt8 = 10
+    var offset: UInt8 = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,12 +38,12 @@ class ViewController: FormViewController {
         let HUD = MBProgressHUD.showAdded(to: self.view, animated: true)
         DispatchQueue.global().async {
             let time1 = Date()
-            self.analysisResult = self.originalImage.analyze(compression: self.compression)
+            self.analysisResult = self.originalImage.analyze(offset: self.offset)
             let time2 = Date()
-            self.updateFilteredImage()
+            self.updateRenderedImage()
             let time3 = Date()
             self.durationForAnalysis = time2.timeIntervalSince(time1)
-            self.durationForFilteringImage = time3.timeIntervalSince(time2)
+            self.durationForRenderingImage = time3.timeIntervalSince(time2)
             DispatchQueue.main.async {
                 HUD.hide(animated: true)
                 self.reload()
@@ -72,13 +72,13 @@ class ViewController: FormViewController {
                     }
                     ps.showPhotoLibrary(sender: self)
                 })
-                +++ Section("Filtered image")
-                <<< getImageRow(image: filteredImage)
+                +++ Section("Image after applying offset")
+                <<< getImageRow(image: renderedImage)
                 +++ Section("Analysis")
                 <<< SliderRow(){ row in
-                    row.title = "Compression"
-                    row.value = Float(self.compression)
-                    row.steps = maxCompression - 1
+                    row.title = "Set offset"
+                    row.value = Float(self.offset)
+                    row.steps = maxOffset
                     row.displayValueFor = {
                         guard let value = $0 else {
                             return ""
@@ -86,26 +86,32 @@ class ViewController: FormViewController {
                         return "\(UInt(value))"
                     }
                     row.cellSetup { cell, row in
-                        cell.slider.minimumValue = 1
-                        cell.slider.maximumValue = Float(maxCompression)
-                        cell.slider.addTarget(self, action: #selector(self.changeCompression(slider:)), for: [.touchUpInside, .touchUpOutside])
+                        cell.slider.minimumValue = 0
+                        cell.slider.maximumValue = Float(maxOffset)
+                        cell.slider.addTarget(self, action: #selector(self.changeOffset(slider:)), for: [.touchUpInside, .touchUpOutside])
                     }
                 }
                 <<< LabelRow(){
-                    $0.title = "Compression"
-                    $0.value = String(compression)
+                    $0.title = "Offset"
+                    $0.value = String(self.offset)
                 }
                 <<< LabelRow(){
                     $0.title = "Number of colors"
                     $0.value = String(analysisResult.count)
+                    $0.cellSetup { (cell, _) in
+                        cell.detailTextLabel?.textColor = .red
+                    }
                 }
                 <<< LabelRow(){
-                    $0.title = "Duration for filtering image"
-                    $0.value = "\(Int(durationForFilteringImage * 1000))ms"
-                }
-                <<< LabelRow(){
-                    $0.title = "Duration for analysis image"
+                    $0.title = "Duration for analysis"
                     $0.value = "\(Int(durationForAnalysis * 1000))ms"
+                    $0.cellSetup { (cell, _) in
+                        cell.detailTextLabel?.textColor = .red
+                    }
+                }
+                <<< LabelRow(){
+                    $0.title = "Duration for rendering"
+                    $0.value = "\(Int(durationForRenderingImage * 1000))ms"
                 }
                 +++ Section("Top 10 colors") {
                     guard self.analysisResult.count > 0 else {
@@ -146,14 +152,14 @@ class ViewController: FormViewController {
             }
     }
     
-    @objc private func changeCompression(slider: UISlider) {
+    @objc private func changeOffset(slider: UISlider) {
         let value = slider.value
-        self.compression = UInt8(value)
+        self.offset = UInt8(value)
         self.reload()
         self.analyze()
     }
     
-    func updateFilteredImage() {        
+    func updateRenderedImage() {
         guard let cgImage = self.originalImage.cgImage,
               let colorSpace = cgImage.colorSpace,
               let pixelData = cgImage.dataProvider?.data else {
@@ -172,7 +178,7 @@ class ViewController: FormViewController {
             let b = data[index * 4 + 2]
             let color = Color.init(r: r, g: g, b: b)
             for item in self.analysisResult {
-                if item.color.isSimilar(another: color, deviation: compression) {
+                if item.color.isSimilar(another: color, offset: self.offset) {
                     data[index * 4] = item.color.r
                     data[index * 4 + 1] = item.color.g
                     data[index * 4 + 2] = item.color.b
@@ -189,7 +195,7 @@ class ViewController: FormViewController {
             assert(false)
             return
         }
-        self.filteredImage = UIImage.init(cgImage: newCGImage)
+        self.renderedImage = UIImage.init(cgImage: newCGImage)
     }
     
 }
