@@ -12,7 +12,7 @@ import ImageAnalyzer
 import MBProgressHUD
 import ZLPhotoBrowser
 
-let maxCompression: UInt = 100
+let maxCompression: UInt = 50
 
 class ViewController: FormViewController {
     
@@ -87,7 +87,7 @@ class ViewController: FormViewController {
                     }
                     row.cellSetup { cell, row in
                         cell.slider.minimumValue = 1
-                        cell.slider.maximumValue = 100
+                        cell.slider.maximumValue = Float(maxCompression)
                         cell.slider.addTarget(self, action: #selector(self.changeCompression(slider:)), for: [.touchUpInside, .touchUpOutside])
                     }
                 }
