@@ -64,6 +64,7 @@ extension UIImage {
                 result.append(item)
             }
         }
+        result.sort(by: { $0.rate > $1.rate })
         return result
     }
     
