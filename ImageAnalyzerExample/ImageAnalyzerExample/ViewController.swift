@@ -38,12 +38,12 @@ class ViewController: FormViewController {
         let HUD = MBProgressHUD.showAdded(to: self.view, animated: true)
         DispatchQueue.global().async {
             let time1 = Date()
-            self.filteredImage = self.originalImage.image(compression: self.compression)!
-            let time2 = Date()
             self.analysisResult = self.originalImage.analyze(compression: self.compression)
+            let time2 = Date()
+            self.updateFilteredImage()
             let time3 = Date()
-            self.durationForFilteringImage = time2.timeIntervalSince(time1)
-            self.durationForAnalysis = time3.timeIntervalSince(time2)
+            self.durationForAnalysis = time2.timeIntervalSince(time1)
+            self.durationForFilteringImage = time3.timeIntervalSince(time2)
             DispatchQueue.main.async {
                 HUD.hide(animated: true)
                 self.reload()
@@ -151,6 +151,45 @@ class ViewController: FormViewController {
         self.compression = UInt8(value)
         self.reload()
         self.analyze()
+    }
+    
+    func updateFilteredImage() {        
+        guard let cgImage = self.originalImage.cgImage,
+              let colorSpace = cgImage.colorSpace,
+              let pixelData = cgImage.dataProvider?.data else {
+            assert(false)
+            return
+        }
+        let length = CFDataGetLength(pixelData)
+        guard let newPixelData = CFDataCreateMutableCopy(kCFAllocatorDefault, length, pixelData),
+              let data = CFDataGetMutableBytePtr(newPixelData) else {
+            assert(false)
+            return
+        }
+        for index in 0 ... (length / 4 - 1) {
+            let r = data[index * 4]
+            let g = data[index * 4 + 1]
+            let b = data[index * 4 + 2]
+            let color = Color.init(r: r, g: g, b: b)
+            for item in self.analysisResult {
+                if item.color.isSimilar(another: color, deviation: compression) {
+                    data[index * 4] = item.color.r
+                    data[index * 4 + 1] = item.color.g
+                    data[index * 4 + 2] = item.color.b
+                    break
+                }
+            }
+        }
+        
+        guard let dataProvider = CGDataProvider.init(data: newPixelData) else {
+            assert(false)
+            return
+        }
+        guard let newCGImage = CGImage.init(width: cgImage.width, height: cgImage.height, bitsPerComponent: cgImage.bitsPerComponent, bitsPerPixel: cgImage.bitsPerPixel, bytesPerRow: cgImage.bytesPerRow, space: colorSpace, bitmapInfo: cgImage.bitmapInfo, provider: dataProvider, decode: cgImage.decode, shouldInterpolate: cgImage.shouldInterpolate, intent: cgImage.renderingIntent) else {
+            assert(false)
+            return
+        }
+        self.filteredImage = UIImage.init(cgImage: newCGImage)
     }
     
 }

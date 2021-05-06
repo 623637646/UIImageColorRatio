@@ -11,6 +11,19 @@ public struct Color: Hashable {
     public let r: UInt8
     public let g: UInt8
     public let b: UInt8
+    
+    public init(r: UInt8, g: UInt8, b: UInt8) {
+        self.r = r
+        self.g = g
+        self.b = b
+    }
+    
+    public func isSimilar(another: Color, deviation: UInt8) -> Bool {
+        return
+            max(self.r, another.r) - min(self.r, another.r) <= deviation &&
+            max(self.g, another.g) - min(self.g, another.g) <= deviation &&
+            max(self.b, another.b) - min(self.b, another.b) <= deviation
+    }
 }
 
 extension UIImage {
@@ -28,42 +41,30 @@ extension UIImage {
         var dic = [Color: UInt64]()
         var totalCount = 0
         for index in 0 ... (length / 4 - 1) {
-            let r = data[index * 4] / compression * compression
-            let g = data[index * 4 + 1] / compression * compression
-            let b = data[index * 4 + 2] / compression * compression
+            let r = data[index * 4]
+            let g = data[index * 4 + 1]
+            let b = data[index * 4 + 2]
             let color = Color.init(r: r, g: g, b: b)
             dic[color] = (dic[color] ?? 0) + 1
             totalCount += 1
         }
-        let result = dic.map { (color: $0, rate: Float($1) / Float(totalCount)) }.sorted { $0.rate > $1.rate }
+        let array = dic.map { (color: $0, rate: Float($1) / Float(totalCount)) }.sorted { $0.rate > $1.rate }
+        var result = [(color: Color, rate: Float)]()
+        for item in array {
+            var similarItemIndex: Int? = nil
+            for (index, one) in result.enumerated() {
+                if one.color.isSimilar(another: item.color, deviation: compression - 1) {
+                    similarItemIndex = index
+                    break
+                }
+            }
+            if let similarItemIndex = similarItemIndex {
+                result[similarItemIndex].rate += item.rate
+            } else {
+                result.append(item)
+            }
+        }
         return result
-    }
-    
-    // compression: The degree of compression. More compression means less kind of colors.
-    public func image(compression: UInt8 = 1) -> UIImage? {
-        guard let cgImage = self.cgImage,
-              let colorSpace = cgImage.colorSpace,
-              let pixelData = cgImage.dataProvider?.data else {
-            return nil
-        }
-        let length = CFDataGetLength(pixelData)
-        guard let newPixelData = CFDataCreateMutableCopy(kCFAllocatorDefault, length, pixelData),
-              let data = CFDataGetMutableBytePtr(newPixelData) else {
-            return nil
-        }
-        for index in 0 ... (length / 4 - 1) {
-            data[index * 4] = data[index * 4] / compression * compression
-            data[index * 4 + 1] = data[index * 4 + 1] / compression * compression
-            data[index * 4 + 2] = data[index * 4 + 2] / compression * compression
-        }
-        
-        guard let dataProvider = CGDataProvider.init(data: newPixelData) else {
-            return nil
-        }
-        guard let newCGImage = CGImage.init(width: cgImage.width, height: cgImage.height, bitsPerComponent: cgImage.bitsPerComponent, bitsPerPixel: cgImage.bitsPerPixel, bytesPerRow: cgImage.bytesPerRow, space: colorSpace, bitmapInfo: cgImage.bitmapInfo, provider: dataProvider, decode: cgImage.decode, shouldInterpolate: cgImage.shouldInterpolate, intent: cgImage.renderingIntent) else {
-            return nil
-        }
-        return UIImage.init(cgImage: newCGImage)
     }
     
 }
