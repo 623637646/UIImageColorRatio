@@ -9,7 +9,7 @@ import UIKit
 import Eureka
 import ViewRow
 import ImageAnalyzer
-import ProgressHUD
+import MBProgressHUD
 import ZLPhotoBrowser
 
 let maxCompression: UInt = 100
@@ -35,7 +35,7 @@ class ViewController: FormViewController {
     }
     
     func analyze() {
-        ProgressHUD.show()
+        let HUD = MBProgressHUD.showAdded(to: self.view, animated: true)
         DispatchQueue.global().async {
             let time1 = Date()
             self.filteredImage = self.originalImage.image(compression: self.compression)!
@@ -45,7 +45,7 @@ class ViewController: FormViewController {
             self.durationForFilteringImage = time2.timeIntervalSince(time1)
             self.durationForAnalysis = time3.timeIntervalSince(time2)
             DispatchQueue.main.async {
-                ProgressHUD.dismiss()
+                HUD.hide(animated: true)
                 self.reload()
             }
         }
