@@ -53,6 +53,7 @@ class ViewController: FormViewController {
     
     func reload() {
         UIView.performWithoutAnimation {
+            let offset = self.tableView.contentOffset
             form.removeAll()
             form +++ Section("Original image")
                 <<< getImageRow(image: originalImage).onCellSelection({ (_, _) in
@@ -123,6 +124,7 @@ class ViewController: FormViewController {
                         })
                     }
                 }
+            self.tableView.contentOffset = offset
         }
     }
     
