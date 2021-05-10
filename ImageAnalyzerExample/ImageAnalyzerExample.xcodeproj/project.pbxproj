@@ -3,14 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		5C7966AB264137C20031F359 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7966AA264137C20031F359 /* AppDelegate.swift */; };
-		5C7966AD264137C20031F359 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7966AC264137C20031F359 /* SceneDelegate.swift */; };
 		5C7966AF264137C20031F359 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7966AE264137C20031F359 /* ViewController.swift */; };
-		5C7966B2264137C20031F359 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C7966B0264137C20031F359 /* Main.storyboard */; };
 		5C7966B4264137C40031F359 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5C7966B3264137C40031F359 /* Assets.xcassets */; };
 		5C7966B7264137C40031F359 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5C7966B5264137C40031F359 /* LaunchScreen.storyboard */; };
 		7D84C9C1A1BDB953C1B9AC5F /* Pods_ImageAnalyzerExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CFD319A3B27605B93E63BE3 /* Pods_ImageAnalyzerExample.framework */; };
@@ -20,9 +18,7 @@
 		3CFD319A3B27605B93E63BE3 /* Pods_ImageAnalyzerExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ImageAnalyzerExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C7966A7264137C20031F359 /* ImageAnalyzerExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageAnalyzerExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5C7966AA264137C20031F359 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		5C7966AC264137C20031F359 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		5C7966AE264137C20031F359 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		5C7966B1264137C20031F359 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		5C7966B3264137C40031F359 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5C7966B6264137C40031F359 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		5C7966B8264137C40031F359 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -48,7 +44,6 @@
 				D53F8C59BD2B853A3459FA57 /* Pods-ImageAnalyzerExample.debug.xcconfig */,
 				64725CED605BFED66DCD7123 /* Pods-ImageAnalyzerExample.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -74,9 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				5C7966AA264137C20031F359 /* AppDelegate.swift */,
-				5C7966AC264137C20031F359 /* SceneDelegate.swift */,
 				5C7966AE264137C20031F359 /* ViewController.swift */,
-				5C7966B0264137C20031F359 /* Main.storyboard */,
 				5C7966B3264137C40031F359 /* Assets.xcassets */,
 				5C7966B5264137C40031F359 /* LaunchScreen.storyboard */,
 				5C7966B8264137C40031F359 /* Info.plist */,
@@ -153,7 +146,6 @@
 			files = (
 				5C7966B7264137C40031F359 /* LaunchScreen.storyboard in Resources */,
 				5C7966B4264137C40031F359 /* Assets.xcassets in Resources */,
-				5C7966B2264137C20031F359 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,21 +200,12 @@
 			files = (
 				5C7966AF264137C20031F359 /* ViewController.swift in Sources */,
 				5C7966AB264137C20031F359 /* AppDelegate.swift in Sources */,
-				5C7966AD264137C20031F359 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		5C7966B0264137C20031F359 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				5C7966B1264137C20031F359 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		5C7966B5264137C40031F359 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -285,7 +268,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -340,7 +323,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
