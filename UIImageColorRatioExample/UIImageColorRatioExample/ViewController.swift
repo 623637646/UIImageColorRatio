@@ -12,7 +12,7 @@ import UIImageColorRatio
 import MBProgressHUD
 import ZLPhotoBrowser
 
-let maxOffset: UInt8 = 255
+private let maxDeviation: UInt8 = 255
 
 class ViewController: FormViewController {
     
@@ -20,11 +20,11 @@ class ViewController: FormViewController {
     
     var renderedImage: UIImage?
     
-    var analysisResult: UIImage.AnalyzeResult?
+    var colorRatioResult: UIImage.ColorRatioResult?
     
-    var durationForRenderingImage: Double = 0
-        
-    var offset: UInt8 = 5
+    var durationForRenderingImage: Double?
+    
+    var deviation: UInt8 = 5
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,11 +35,16 @@ class ViewController: FormViewController {
     func analyze() {
         let HUD = MBProgressHUD.showAdded(to: self.view, animated: true)
         DispatchQueue.global().async {
-            self.analysisResult = self.originalImage.analyze(offset: self.offset)
-            let time1 = Date()
-            self.renderedImage = self.originalImage.image(analyzeResult: self.analysisResult!)
-            let time2 = Date()
-            self.durationForRenderingImage = time2.timeIntervalSince(time1)
+            self.colorRatioResult = self.originalImage.calculateColorRatio(deviation: self.deviation)
+            if let colorRatioResult = self.colorRatioResult {
+                let time1 = Date()
+                self.renderedImage = self.originalImage.image(colorRatioResult: colorRatioResult)
+                let time2 = Date()
+                self.durationForRenderingImage = time2.timeIntervalSince(time1)
+            } else {
+                self.renderedImage = nil
+                self.durationForRenderingImage = 0
+            }
             DispatchQueue.main.async {
                 HUD.hide(animated: true)
                 self.reload()
@@ -68,13 +73,18 @@ class ViewController: FormViewController {
                     }
                     ps.showPhotoLibrary(sender: self)
                 })
-                +++ Section("Image after applying offset")
-                <<< getImageRow(image: renderedImage ?? originalImage)
-                +++ Section("Analysis")
+            if let renderedImage = self.renderedImage {
+                form +++ Section("Effect image")
+                    <<< getImageRow(image: renderedImage)
+            }
+            
+            let analysisSection = Section("Analysis")
+            
+            form +++ analysisSection
                 <<< SliderRow(){ row in
-                    row.title = "Set offset"
-                    row.value = Float(self.offset)
-                    row.steps = UInt(maxOffset)
+                    row.title = "Set deviation"
+                    row.value = Float(self.deviation)
+                    row.steps = UInt(maxDeviation)
                     row.displayValueFor = {
                         guard let value = $0 else {
                             return ""
@@ -83,43 +93,46 @@ class ViewController: FormViewController {
                     }
                     row.cellSetup { cell, row in
                         cell.slider.minimumValue = 0
-                        cell.slider.maximumValue = Float(maxOffset)
-                        cell.slider.addTarget(self, action: #selector(self.changeOffset(slider:)), for: [.touchUpInside, .touchUpOutside])
+                        cell.slider.maximumValue = Float(maxDeviation)
+                        cell.slider.addTarget(self, action: #selector(self.changeDeviation(slider:)), for: [.touchUpInside, .touchUpOutside])
                     }
                 }
                 <<< LabelRow(){
-                    $0.title = "Offset"
-                    $0.value = String(self.offset)
+                    $0.title = "Deviation"
+                    $0.value = String(self.deviation)
                 }
-                <<< LabelRow(){
+            
+            if let colorRatioResult = self.colorRatioResult,
+               let durationForRenderingImage = self.durationForRenderingImage {
+                let colorCount = colorRatioResult.colorRatioArray.count
+                analysisSection <<< LabelRow(){
                     $0.title = "Number of colors"
-                    $0.value = String(analysisResult?.colorRatio.count ?? 0)
+                    $0.value = String(colorCount)
                     $0.cellSetup { (cell, _) in
                         cell.detailTextLabel?.textColor = .red
                     }
                 }
                 <<< LabelRow(){
-                    $0.title = "Duration for analysis"
-                    $0.value = "\(Int((analysisResult?.duration ?? 0) * 1000))ms"
+                    $0.title = "Duration of calculation"
+                    $0.value = "\(Int((colorRatioResult.duration) * 1000))ms"
                     $0.cellSetup { (cell, _) in
                         cell.detailTextLabel?.textColor = .red
                     }
                 }
                 <<< LabelRow(){
-                    $0.title = "Duration for rendering"
+                    $0.title = "Duration of Rendering effect image"
                     $0.value = "\(Int(durationForRenderingImage * 1000))ms"
                 }
-                +++ Section("Top 10 colors") {
-                    guard let analysisResult = self.analysisResult,
-                        analysisResult.colorRatio.count > 0 else {
+                form +++ Section("Top 10 colors") {
+                    guard colorCount > 0 else {
                         return
                     }
-                    for index in 0 ... min(10 - 1, analysisResult.colorRatio.count - 1) {
-                        let colorRate = analysisResult.colorRatio[index]
-                        let color = colorRate.color
+                    for index in 0 ... min(10 - 1, colorCount - 1) {
+                        let colorRatio = colorRatioResult.colorRatioArray[index]
+                        let color = colorRatio.color
                         $0 <<< LabelRow(){
                             $0.title = color.hexString
-                            $0.value = String.init(format: "%0.2f%%", colorRate.rate * 100)
+                            $0.value = String.init(format: "%0.2f%%", colorRatio.ratio * 100)
                         }.cellUpdate({ (cell, row) in
                             cell.backgroundColor = color
                             cell.textLabel?.textColor = color.inverseColor()
@@ -127,6 +140,7 @@ class ViewController: FormViewController {
                         })
                     }
                 }
+            }
             self.tableView.contentOffset = offset
         }
     }
@@ -149,9 +163,9 @@ class ViewController: FormViewController {
             }
     }
     
-    @objc private func changeOffset(slider: UISlider) {
+    @objc private func changeDeviation(slider: UISlider) {
         let value = slider.value
-        self.offset = UInt8(value)
+        self.deviation = UInt8(value)
         self.reload()
         self.analyze()
     }

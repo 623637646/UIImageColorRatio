@@ -9,11 +9,10 @@ import UIKit
 
 extension UIImage {
     
-    // TODO: rename to colorRatioResult?
-    public struct AnalyzeResult {
-        public let colorRatio: [(color: UIColor, rate: Float)]
+    public struct ColorRatioResult {
+        public let colorRatioArray: [(color: UIColor, ratio: Float)]
         public let duration: TimeInterval // second
-        public let offset: UInt8
+        public let deviation: UInt8
     }
     
     private struct Color: Hashable {
@@ -21,17 +20,16 @@ extension UIImage {
         let g: UInt8
         let b: UInt8
         
-        func isSimilar(another: Color, offset: UInt8) -> Bool {
+        func isSimilar(another: Color, deviation: UInt8) -> Bool {
             return
-                max(self.r, another.r) - min(self.r, another.r) <= offset &&
-                max(self.g, another.g) - min(self.g, another.g) <= offset &&
-                max(self.b, another.b) - min(self.b, another.b) <= offset
+                max(self.r, another.r) - min(self.r, another.r) <= deviation &&
+                max(self.g, another.g) - min(self.g, another.g) <= deviation &&
+                max(self.b, another.b) - min(self.b, another.b) <= deviation
         }
     }
     
-    // offset: The degree of compression. More offset means less kind of colors.
-    // Refer to: https://stackoverflow.com/a/40237504/9315497
-    public func analyze(offset: UInt8) -> AnalyzeResult? {
+    // deviation: The deviation on pixels, It's from 0 to 255. Bigger deviation means less kind of colors.
+    public func calculateColorRatio(deviation: UInt8) -> ColorRatioResult? {
         let startTime = Date()
         // TODO: test the releasing.
         guard let pixelData = self.cgImage?.dataProvider?.data,
@@ -41,6 +39,7 @@ extension UIImage {
         let length: Int = CFDataGetLength(pixelData)
         var dic = [Color: UInt]()
         let totalCount = length / 4
+        // Refer to: https://stackoverflow.com/a/40237504/9315497
         for index in 0 ... (totalCount - 1) {
             let r = data[index * 4]
             let g = data[index * 4 + 1]
@@ -49,30 +48,30 @@ extension UIImage {
             dic[color] = (dic[color] ?? 0) + 1
         }
         let array = dic.map { (color: $0, count: $1) }.sorted { $0.count > $1.count }
-        var colorRatios = [(color: Color, count: UInt)]()
+        var colorCountArray = [(color: Color, count: UInt)]()
         for item in array {
             var similarItemIndex: Int? = nil
-            for (index, one) in colorRatios.enumerated() {
-                if one.color.isSimilar(another: item.color, offset: offset) {
+            for (index, one) in colorCountArray.enumerated() {
+                if one.color.isSimilar(another: item.color, deviation: deviation) {
                     similarItemIndex = index
                     break
                 }
             }
             if let similarItemIndex = similarItemIndex {
-                colorRatios[similarItemIndex].count += item.count
+                colorCountArray[similarItemIndex].count += item.count
             } else {
-                colorRatios.append(item)
+                colorCountArray.append(item)
             }
         }
-        colorRatios.sort(by: { $0.count > $1.count })
-        let resultcolorRatio = colorRatios.map { (color: Color, count: UInt) -> (UIColor, Float) in
-            return (UIColor.init(red: CGFloat(color.r) / 255.0, green: CGFloat(color.g) / 255.0, blue: CGFloat(color.b) / 255.0, alpha: 1), Float(count) / Float(totalCount))
+        colorCountArray.sort(by: { $0.count > $1.count })  // need to sort again.
+        let colorRatioArray = colorCountArray.map { (color: Color, count: UInt) -> (color: UIColor, ratio: Float) in
+            return (color: UIColor.init(red: CGFloat(color.r) / 255.0, green: CGFloat(color.g) / 255.0, blue: CGFloat(color.b) / 255.0, alpha: 1), ratio: Float(count) / Float(totalCount))
         }
         let endTime = Date()
-        return AnalyzeResult.init(colorRatio: resultcolorRatio, duration: endTime.timeIntervalSince(startTime), offset: offset)
+        return ColorRatioResult.init(colorRatioArray: colorRatioArray, duration: endTime.timeIntervalSince(startTime), deviation: deviation)
     }
     
-    public func image(analyzeResult: AnalyzeResult) -> UIImage? {
+    public func image(colorRatioResult: ColorRatioResult) -> UIImage? {
         guard let cgImage = self.cgImage,
               let colorSpace = cgImage.colorSpace,
               let pixelData = cgImage.dataProvider?.data else {
@@ -84,21 +83,21 @@ extension UIImage {
               let dataProvider = CGDataProvider.init(data: newPixelData) else {
             return nil
         }
-        let colorRatio = analyzeResult.colorRatio.map({ (color: UIColor, rate: Float) -> (color: Color, rate: Float) in
+        let colorRatioArray = colorRatioResult.colorRatioArray.map({ (color: UIColor, ratio: Float) -> (color: Color, ratio: Float) in
             var r: CGFloat = 0
             var g: CGFloat = 0
             var b: CGFloat = 0
             color.getRed(&r, green: &g, blue: &b, alpha: nil)
             let color = Color.init(r: UInt8(r * 255), g: UInt8(g * 255), b: UInt8(b * 255))
-            return (color: color, rate: rate)
+            return (color: color, ratio: ratio)
         })
         for index in 0 ... (length / 4 - 1) {
             let r = data[index * 4]
             let g = data[index * 4 + 1]
             let b = data[index * 4 + 2]
             let color = Color.init(r: r, g: g, b: b)
-            for item in colorRatio {
-                if item.color.isSimilar(another: color, offset: analyzeResult.offset) {
+            for item in colorRatioArray {
+                if item.color.isSimilar(another: color, deviation: colorRatioResult.deviation) {
                     data[index * 4] = item.color.r
                     data[index * 4 + 1] = item.color.g
                     data[index * 4 + 2] = item.color.b
