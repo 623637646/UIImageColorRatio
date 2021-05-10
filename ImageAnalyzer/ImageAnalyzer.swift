@@ -39,35 +39,34 @@ extension UIImage {
             return nil
         }
         let length: Int = CFDataGetLength(pixelData)
-        var dic = [Color: UInt64]()
-        var totalCount = 0
-        for index in 0 ... (length / 4 - 1) {
+        var dic = [Color: UInt]()
+        let totalCount = length / 4
+        for index in 0 ... (totalCount - 1) {
             let r = data[index * 4]
             let g = data[index * 4 + 1]
             let b = data[index * 4 + 2]
             let color = Color.init(r: r, g: g, b: b)
             dic[color] = (dic[color] ?? 0) + 1
-            totalCount += 1
         }
-        let array = dic.map { (color: $0, rate: Float($1) / Float(totalCount)) }.sorted { $0.rate > $1.rate }
-        var colorRatio = [(color: Color, rate: Float)]()
+        let array = dic.map { (color: $0, count: $1) }.sorted { $0.count > $1.count }
+        var colorRatios = [(color: Color, count: UInt)]()
         for item in array {
             var similarItemIndex: Int? = nil
-            for (index, one) in colorRatio.enumerated() {
+            for (index, one) in colorRatios.enumerated() {
                 if one.color.isSimilar(another: item.color, offset: offset) {
                     similarItemIndex = index
                     break
                 }
             }
             if let similarItemIndex = similarItemIndex {
-                colorRatio[similarItemIndex].rate += item.rate
+                colorRatios[similarItemIndex].count += item.count
             } else {
-                colorRatio.append(item)
+                colorRatios.append(item)
             }
         }
-        colorRatio.sort(by: { $0.rate > $1.rate })
-        let resultcolorRatio = colorRatio.map { (color: Color, rate: Float) -> (UIColor, Float) in
-            return (UIColor.init(red: CGFloat(color.r) / 255.0, green: CGFloat(color.g) / 255.0, blue: CGFloat(color.b) / 255.0, alpha: 1), rate)
+        colorRatios.sort(by: { $0.count > $1.count })
+        let resultcolorRatio = colorRatios.map { (color: Color, count: UInt) -> (UIColor, Float) in
+            return (UIColor.init(red: CGFloat(color.r) / 255.0, green: CGFloat(color.g) / 255.0, blue: CGFloat(color.b) / 255.0, alpha: 1), Float(count) / Float(totalCount))
         }
         let endTime = Date()
         return AnalyzeResult.init(colorRatio: resultcolorRatio, duration: endTime.timeIntervalSince(startTime), offset: offset)
