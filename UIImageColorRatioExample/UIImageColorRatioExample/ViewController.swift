@@ -120,7 +120,7 @@ class ViewController: FormViewController {
                     }
                 }
                 <<< LabelRow(){
-                    $0.title = "Duration of Rendering effected image"
+                    $0.title = "Duration for effected image"
                     $0.value = "\(Int(durationForRenderingImage * 1000))ms"
                 }
                 form +++ Section("Top 10 colors") {
