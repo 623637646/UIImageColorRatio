@@ -1,8 +1,8 @@
 //
 //  AppDelegate.swift
-//  ImageAnalyzerExample
+//  UIImageColorRatioExample
 //
-//  Created by Yanni Wang on 4/5/21.
+//  Created by Yanni Wang on 10/5/21.
 //
 
 import UIKit

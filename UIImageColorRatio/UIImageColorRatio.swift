@@ -1,6 +1,6 @@
 //
-//  ImageAnalyzer.swift
-//  ImageAnalyzer
+//  UIImageColorRatio.swift
+//  UIImageColorRatio
 //
 //  Created by Yanni Wang on 4/5/21.
 //

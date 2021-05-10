@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
 
-  s.name         = "ImageAnalyzer"
+  s.name         = "UIImageColorRatio"
   s.version      = "1.0.0"
   s.summary      = "Help to analyze UIImage in iOS."
 
@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   					This is a library to help to analyze UIImage in iOS..
                    DESC
 
-  s.homepage     = "https://github.com/623637646/ImageAnalyzer"
+  s.homepage     = "https://github.com/623637646/UIImageColorRatio"
 
   s.license      = "MIT"
 
@@ -18,8 +18,8 @@ Pod::Spec.new do |s|
   
   s.swift_versions = "5"
 
-  s.source       = { :git => "https://github.com/623637646/ImageAnalyzer.git", :tag => "#{s.version}" }
+  s.source       = { :git => "https://github.com/623637646/UIImageColorRatio.git", :tag => "#{s.version}" }
 
-  s.source_files  = "ImageAnalyzer/**/*.{swift}"
+  s.source_files  = "UIImageColorRatio/**/*.{swift}"
 
 end

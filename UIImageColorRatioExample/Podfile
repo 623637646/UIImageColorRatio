@@ -1,9 +1,9 @@
 platform :ios, '12.0'
 
-target 'ImageAnalyzerExample' do
+target 'UIImageColorRatioExample' do
  use_frameworks!
 
-  pod 'ImageAnalyzer', :path=>'../'
+  pod 'UIImageColorRatio', :path=>'../'
   pod 'Eureka'
   pod 'ViewRow'
   pod 'MBProgressHUD'

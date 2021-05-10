@@ -7,19 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5C796696264137660031F359 /* ImageAnalyzer.h in Headers */ = {isa = PBXBuildFile; fileRef = 5C796694264137660031F359 /* ImageAnalyzer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5C7966C0264137E20031F359 /* ImageAnalyzer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7966BF264137E20031F359 /* ImageAnalyzer.swift */; };
+		5CA071802649306E0055BDDD /* UIImageColorRatio.h in Headers */ = {isa = PBXBuildFile; fileRef = 5CA0717E2649306E0055BDDD /* UIImageColorRatio.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5CA5DE38264935CA00EA7FA6 /* UIImageColorRatio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA5DE37264935CA00EA7FA6 /* UIImageColorRatio.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5C796691264137660031F359 /* ImageAnalyzer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ImageAnalyzer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		5C796694264137660031F359 /* ImageAnalyzer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageAnalyzer.h; sourceTree = "<group>"; };
-		5C796695264137660031F359 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		5C7966BF264137E20031F359 /* ImageAnalyzer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageAnalyzer.swift; sourceTree = "<group>"; };
+		5CA0717B2649306E0055BDDD /* UIImageColorRatio.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = UIImageColorRatio.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5CA0717E2649306E0055BDDD /* UIImageColorRatio.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIImageColorRatio.h; sourceTree = "<group>"; };
+		5CA0717F2649306E0055BDDD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5CA5DE37264935CA00EA7FA6 /* UIImageColorRatio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIImageColorRatio.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		5C79668E264137660031F359 /* Frameworks */ = {
+		5CA071782649306E0055BDDD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -29,79 +29,79 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		5C796687264137660031F359 = {
+		5CA071712649306E0055BDDD = {
 			isa = PBXGroup;
 			children = (
-				5C796693264137660031F359 /* ImageAnalyzer */,
-				5C796692264137660031F359 /* Products */,
+				5CA0717D2649306E0055BDDD /* UIImageColorRatio */,
+				5CA0717C2649306E0055BDDD /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		5C796692264137660031F359 /* Products */ = {
+		5CA0717C2649306E0055BDDD /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				5C796691264137660031F359 /* ImageAnalyzer.framework */,
+				5CA0717B2649306E0055BDDD /* UIImageColorRatio.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		5C796693264137660031F359 /* ImageAnalyzer */ = {
+		5CA0717D2649306E0055BDDD /* UIImageColorRatio */ = {
 			isa = PBXGroup;
 			children = (
-				5C796694264137660031F359 /* ImageAnalyzer.h */,
-				5C7966BF264137E20031F359 /* ImageAnalyzer.swift */,
-				5C796695264137660031F359 /* Info.plist */,
+				5CA0717E2649306E0055BDDD /* UIImageColorRatio.h */,
+				5CA5DE37264935CA00EA7FA6 /* UIImageColorRatio.swift */,
+				5CA0717F2649306E0055BDDD /* Info.plist */,
 			);
-			path = ImageAnalyzer;
+			path = UIImageColorRatio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		5C79668C264137660031F359 /* Headers */ = {
+		5CA071762649306E0055BDDD /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C796696264137660031F359 /* ImageAnalyzer.h in Headers */,
+				5CA071802649306E0055BDDD /* UIImageColorRatio.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		5C796690264137660031F359 /* ImageAnalyzer */ = {
+		5CA0717A2649306E0055BDDD /* UIImageColorRatio */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 5C796699264137660031F359 /* Build configuration list for PBXNativeTarget "ImageAnalyzer" */;
+			buildConfigurationList = 5CA071832649306E0055BDDD /* Build configuration list for PBXNativeTarget "UIImageColorRatio" */;
 			buildPhases = (
-				5C79668C264137660031F359 /* Headers */,
-				5C79668D264137660031F359 /* Sources */,
-				5C79668E264137660031F359 /* Frameworks */,
-				5C79668F264137660031F359 /* Resources */,
+				5CA071762649306E0055BDDD /* Headers */,
+				5CA071772649306E0055BDDD /* Sources */,
+				5CA071782649306E0055BDDD /* Frameworks */,
+				5CA071792649306E0055BDDD /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = ImageAnalyzer;
-			productName = ImageAnalyzer;
-			productReference = 5C796691264137660031F359 /* ImageAnalyzer.framework */;
+			name = UIImageColorRatio;
+			productName = UIImageColorRatio;
+			productReference = 5CA0717B2649306E0055BDDD /* UIImageColorRatio.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		5C796688264137660031F359 /* Project object */ = {
+		5CA071722649306E0055BDDD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 1220;
 				TargetAttributes = {
-					5C796690264137660031F359 = {
+					5CA0717A2649306E0055BDDD = {
 						CreatedOnToolsVersion = 12.2;
 						LastSwiftMigration = 1220;
 					};
 				};
 			};
-			buildConfigurationList = 5C79668B264137660031F359 /* Build configuration list for PBXProject "ImageAnalyzer" */;
+			buildConfigurationList = 5CA071752649306E0055BDDD /* Build configuration list for PBXProject "UIImageColorRatio" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -109,18 +109,18 @@
 				en,
 				Base,
 			);
-			mainGroup = 5C796687264137660031F359;
-			productRefGroup = 5C796692264137660031F359 /* Products */;
+			mainGroup = 5CA071712649306E0055BDDD;
+			productRefGroup = 5CA0717C2649306E0055BDDD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				5C796690264137660031F359 /* ImageAnalyzer */,
+				5CA0717A2649306E0055BDDD /* UIImageColorRatio */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		5C79668F264137660031F359 /* Resources */ = {
+		5CA071792649306E0055BDDD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -130,18 +130,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		5C79668D264137660031F359 /* Sources */ = {
+		5CA071772649306E0055BDDD /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5C7966C0264137E20031F359 /* ImageAnalyzer.swift in Sources */,
+				5CA5DE38264935CA00EA7FA6 /* UIImageColorRatio.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		5C796697264137660031F359 /* Debug */ = {
+		5CA071812649306E0055BDDD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -205,7 +205,7 @@
 			};
 			name = Debug;
 		};
-		5C796698264137660031F359 /* Release */ = {
+		5CA071822649306E0055BDDD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -263,7 +263,7 @@
 			};
 			name = Release;
 		};
-		5C79669A264137660031F359 /* Debug */ = {
+		5CA071842649306E0055BDDD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -273,14 +273,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ImageAnalyzer/Info.plist;
+				INFOPLIST_FILE = UIImageColorRatio/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yanni.ImageAnalyzer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yanni.UIImageColorRatio;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -289,7 +289,7 @@
 			};
 			name = Debug;
 		};
-		5C79669B264137660031F359 /* Release */ = {
+		5CA071852649306E0055BDDD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
@@ -299,14 +299,14 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = ImageAnalyzer/Info.plist;
+				INFOPLIST_FILE = UIImageColorRatio/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yanni.ImageAnalyzer;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yanni.UIImageColorRatio;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
@@ -317,25 +317,25 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		5C79668B264137660031F359 /* Build configuration list for PBXProject "ImageAnalyzer" */ = {
+		5CA071752649306E0055BDDD /* Build configuration list for PBXProject "UIImageColorRatio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C796697264137660031F359 /* Debug */,
-				5C796698264137660031F359 /* Release */,
+				5CA071812649306E0055BDDD /* Debug */,
+				5CA071822649306E0055BDDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		5C796699264137660031F359 /* Build configuration list for PBXNativeTarget "ImageAnalyzer" */ = {
+		5CA071832649306E0055BDDD /* Build configuration list for PBXNativeTarget "UIImageColorRatio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5C79669A264137660031F359 /* Debug */,
-				5C79669B264137660031F359 /* Release */,
+				5CA071842649306E0055BDDD /* Debug */,
+				5CA071852649306E0055BDDD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = 5C796688264137660031F359 /* Project object */;
+	rootObject = 5CA071722649306E0055BDDD /* Project object */;
 }
