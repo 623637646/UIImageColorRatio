@@ -74,7 +74,7 @@ class ViewController: FormViewController {
                     ps.showPhotoLibrary(sender: self)
                 })
             if let renderedImage = self.renderedImage {
-                form +++ Section("Effect image")
+                form +++ Section("Effected image")
                     <<< getImageRow(image: renderedImage)
             }
             
@@ -120,7 +120,7 @@ class ViewController: FormViewController {
                     }
                 }
                 <<< LabelRow(){
-                    $0.title = "Duration of Rendering effect image"
+                    $0.title = "Duration of Rendering effected image"
                     $0.value = "\(Int(durationForRenderingImage * 1000))ms"
                 }
                 form +++ Section("Top 10 colors") {
