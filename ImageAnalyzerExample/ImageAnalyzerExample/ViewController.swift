@@ -12,20 +12,18 @@ import ImageAnalyzer
 import MBProgressHUD
 import ZLPhotoBrowser
 
-let maxOffset: UInt = 50
+let maxOffset: UInt8 = 255
 
 class ViewController: FormViewController {
     
     var originalImage = UIImage(named: "bird")!
     
-    lazy var renderedImage = originalImage
+    var renderedImage: UIImage?
     
-    var analysisResult = [(color: Color, rate: Float)]()
+    var analysisResult: UIImage.AnalyzeResult?
     
     var durationForRenderingImage: Double = 0
-    
-    var durationForAnalysis: Double = 0
-    
+        
     var offset: UInt8 = 5
     
     override func viewDidLoad() {
@@ -37,13 +35,11 @@ class ViewController: FormViewController {
     func analyze() {
         let HUD = MBProgressHUD.showAdded(to: self.view, animated: true)
         DispatchQueue.global().async {
-            let time1 = Date()
             self.analysisResult = self.originalImage.analyze(offset: self.offset)
+            let time1 = Date()
+            self.renderedImage = self.originalImage.image(analyzeResult: self.analysisResult!)
             let time2 = Date()
-            self.updateRenderedImage()
-            let time3 = Date()
-            self.durationForAnalysis = time2.timeIntervalSince(time1)
-            self.durationForRenderingImage = time3.timeIntervalSince(time2)
+            self.durationForRenderingImage = time2.timeIntervalSince(time1)
             DispatchQueue.main.async {
                 HUD.hide(animated: true)
                 self.reload()
@@ -73,12 +69,12 @@ class ViewController: FormViewController {
                     ps.showPhotoLibrary(sender: self)
                 })
                 +++ Section("Image after applying offset")
-                <<< getImageRow(image: renderedImage)
+                <<< getImageRow(image: renderedImage ?? originalImage)
                 +++ Section("Analysis")
                 <<< SliderRow(){ row in
                     row.title = "Set offset"
                     row.value = Float(self.offset)
-                    row.steps = maxOffset
+                    row.steps = UInt(maxOffset)
                     row.displayValueFor = {
                         guard let value = $0 else {
                             return ""
@@ -97,14 +93,14 @@ class ViewController: FormViewController {
                 }
                 <<< LabelRow(){
                     $0.title = "Number of colors"
-                    $0.value = String(analysisResult.count)
+                    $0.value = String(analysisResult?.colorRatio.count ?? 0)
                     $0.cellSetup { (cell, _) in
                         cell.detailTextLabel?.textColor = .red
                     }
                 }
                 <<< LabelRow(){
                     $0.title = "Duration for analysis"
-                    $0.value = "\(Int(durationForAnalysis * 1000))ms"
+                    $0.value = "\(Int((analysisResult?.duration ?? 0) * 1000))ms"
                     $0.cellSetup { (cell, _) in
                         cell.detailTextLabel?.textColor = .red
                     }
@@ -114,15 +110,16 @@ class ViewController: FormViewController {
                     $0.value = "\(Int(durationForRenderingImage * 1000))ms"
                 }
                 +++ Section("Top 10 colors") {
-                    guard self.analysisResult.count > 0 else {
+                    guard let analysisResult = self.analysisResult,
+                        analysisResult.colorRatio.count > 0 else {
                         return
                     }
-                    for index in 0 ... min(10 - 1, self.analysisResult.count - 1) {
-                        let data = self.analysisResult[index]
-                        let color = UIColor.init(red: CGFloat(data.color.r) / 255, green: CGFloat(data.color.g) / 255, blue: CGFloat(data.color.b) / 255, alpha: 1)
+                    for index in 0 ... min(10 - 1, analysisResult.colorRatio.count - 1) {
+                        let colorRate = analysisResult.colorRatio[index]
+                        let color = colorRate.color
                         $0 <<< LabelRow(){
                             $0.title = color.hexString
-                            $0.value = String.init(format: "%0.2f%%", data.rate * 100)
+                            $0.value = String.init(format: "%0.2f%%", colorRate.rate * 100)
                         }.cellUpdate({ (cell, row) in
                             cell.backgroundColor = color
                             cell.textLabel?.textColor = color.inverseColor()
@@ -157,45 +154,6 @@ class ViewController: FormViewController {
         self.offset = UInt8(value)
         self.reload()
         self.analyze()
-    }
-    
-    func updateRenderedImage() {
-        guard let cgImage = self.originalImage.cgImage,
-              let colorSpace = cgImage.colorSpace,
-              let pixelData = cgImage.dataProvider?.data else {
-            assert(false)
-            return
-        }
-        let length = CFDataGetLength(pixelData)
-        guard let newPixelData = CFDataCreateMutableCopy(kCFAllocatorDefault, length, pixelData),
-              let data = CFDataGetMutableBytePtr(newPixelData) else {
-            assert(false)
-            return
-        }
-        for index in 0 ... (length / 4 - 1) {
-            let r = data[index * 4]
-            let g = data[index * 4 + 1]
-            let b = data[index * 4 + 2]
-            let color = Color.init(r: r, g: g, b: b)
-            for item in self.analysisResult {
-                if item.color.isSimilar(another: color, offset: self.offset) {
-                    data[index * 4] = item.color.r
-                    data[index * 4 + 1] = item.color.g
-                    data[index * 4 + 2] = item.color.b
-                    break
-                }
-            }
-        }
-        
-        guard let dataProvider = CGDataProvider.init(data: newPixelData) else {
-            assert(false)
-            return
-        }
-        guard let newCGImage = CGImage.init(width: cgImage.width, height: cgImage.height, bitsPerComponent: cgImage.bitsPerComponent, bitsPerPixel: cgImage.bitsPerPixel, bytesPerRow: cgImage.bytesPerRow, space: colorSpace, bitmapInfo: cgImage.bitmapInfo, provider: dataProvider, decode: cgImage.decode, shouldInterpolate: cgImage.shouldInterpolate, intent: cgImage.renderingIntent) else {
-            assert(false)
-            return
-        }
-        self.renderedImage = UIImage.init(cgImage: newCGImage)
     }
     
 }
