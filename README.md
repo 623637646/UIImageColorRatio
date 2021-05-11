@@ -2,6 +2,8 @@
 
 A tool to calculate the color ratio of UIImage in iOS.
 
+![ezgif com-gif-maker](https://user-images.githubusercontent.com/5275802/117752368-39fa6500-b249-11eb-83ae-9e797abdea7f.gif)
+
 
 # How to use UIImageColorRatio
 
