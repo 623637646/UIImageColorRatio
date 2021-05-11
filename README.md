@@ -19,7 +19,7 @@ Get the effected image.
 ```
 let image = ...  // your UIImage.
 let result = image.calculateColorRatio(deviation: 10)
-let effectedImage = image.image(colorRatioResult: result)
+let effectedImage = image.effectedImage(colorRatioResult: result)
 ```
 
 
