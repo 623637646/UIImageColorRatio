@@ -33,6 +33,17 @@ pod 'UIImageColorRatio'
 
 Feel free to send Pull Request to support [Carthage](https://github.com/Carthage/Carthage) or [Swift Packages](https://developer.apple.com/documentation/swift_packages).
 
+# Performance
+
+You can see the duration of the calculation from `calculateColorRatio` API's result.
+
+You must use Release build configuration to see the performance. Because swfit is very slow on Debug build configuration. 
+
+<img width="935" alt="Screenshot 2021-05-11 at 11 23 19 AM" src="https://user-images.githubusercontent.com/5275802/117753620-60210480-b24b-11eb-9b5b-2246ccf1f6c6.png">
+
+Refer here: https://stackoverflow.com/q/61998649/9315497
+  
+
 # Requirements
 
 - iOS 10.0+
