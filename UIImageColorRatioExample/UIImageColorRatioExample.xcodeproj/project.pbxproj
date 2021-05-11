@@ -11,7 +11,7 @@
 		5CA07198264930950055BDDD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CA07197264930950055BDDD /* ViewController.swift */; };
 		5CA0719D264930970055BDDD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5CA0719C264930970055BDDD /* Assets.xcassets */; };
 		5CA071A0264930970055BDDD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5CA0719E264930970055BDDD /* LaunchScreen.storyboard */; };
-		FB6707A7BF4C5F9370C01576 /* Pods_UIImageColorRatioExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716190B5E894C9A20E10A5C /* Pods_UIImageColorRatioExample.framework */; };
+		67A1719CAEAB044033D3DEAA /* Pods_UIImageColorRatioExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B716190B5E894C9A20E10A5C /* Pods_UIImageColorRatioExample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,7 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB6707A7BF4C5F9370C01576 /* Pods_UIImageColorRatioExample.framework in Frameworks */,
+				67A1719CAEAB044033D3DEAA /* Pods_UIImageColorRatioExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -268,7 +268,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -323,7 +323,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
