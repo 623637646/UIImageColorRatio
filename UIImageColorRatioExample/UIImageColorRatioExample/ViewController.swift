@@ -20,7 +20,7 @@ class ViewController: FormViewController {
     
     var renderedImage: UIImage?
     
-    var colorRatioResult: UIImage.ColorRatioResult?
+    var colorRatioResult: ColorRatioResult?
     
     var durationForRenderingImage: Double?
     
@@ -38,7 +38,7 @@ class ViewController: FormViewController {
             self.colorRatioResult = self.originalImage.calculateColorRatio(deviation: self.deviation)
             if let colorRatioResult = self.colorRatioResult {
                 let time1 = Date()
-                self.renderedImage = self.originalImage.image(colorRatioResult: colorRatioResult)
+                self.renderedImage = self.originalImage.effectedImage(colorRatioResult: colorRatioResult)
                 let time2 = Date()
                 self.durationForRenderingImage = time2.timeIntervalSince(time1)
             } else {
