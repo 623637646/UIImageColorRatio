@@ -31,7 +31,6 @@ extension UIImage {
     // deviation: The deviation on pixels, It's from 0 to 255. Bigger deviation means less kind of colors.
     public func calculateColorRatio(deviation: UInt8) -> ColorRatioResult? {
         let startTime = Date()
-        // TODO: test the releasing.
         guard let pixelData = self.cgImage?.dataProvider?.data,
               let data = CFDataGetBytePtr(pixelData) else {
             return nil
