@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "UIImageColorRatio"
-  s.version      = "1.1.0"
+  s.version      = "1.2.0"
   s.summary      = "A tool to calculate the color ratio of UIImage in iOS."
 
   s.description  = <<-DESC

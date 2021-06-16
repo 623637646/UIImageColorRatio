@@ -1,12 +1,12 @@
 PODS:
   - Eureka (5.3.3)
   - MBProgressHUD (1.2.0)
-  - UIImageColorRatio (1.1.0)
+  - UIImageColorRatio (1.2.0)
   - ViewRow (0.8):
     - Eureka (>= 5.0.0)
-  - ZLPhotoBrowser (4.1.5):
-    - ZLPhotoBrowser/Core (= 4.1.5)
-  - ZLPhotoBrowser/Core (4.1.5)
+  - ZLPhotoBrowser (4.1.6):
+    - ZLPhotoBrowser/Core (= 4.1.6)
+  - ZLPhotoBrowser/Core (4.1.6)
 
 DEPENDENCIES:
   - Eureka
@@ -29,9 +29,9 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Eureka: e6d720290c56bb23333ad1a0e020b2a98a0e9a43
   MBProgressHUD: 3ee5efcc380f6a79a7cc9b363dd669c5e1ae7406
-  UIImageColorRatio: 8e01248850d5e85265f398427c2db33ff5dfb1b6
+  UIImageColorRatio: 650e33f193145391b235c45550ee938459d58bb1
   ViewRow: 8da541e9c019f3be63f4e28f311a62cac2045ecf
-  ZLPhotoBrowser: 809878607ea92e9411c580797ce1be23896b8d7f
+  ZLPhotoBrowser: 193f779936f49a3f485100009efb8e0b8b3fb2fe
 
 PODFILE CHECKSUM: 3f2c4ee5edc5a5720f9913715ba2438916c32ea8
 
